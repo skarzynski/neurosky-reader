@@ -1,7 +1,7 @@
 
 (async () => {
 
-    const {eSense, eegPower} = await (await fetch('/json')).json();
+    const {eSense, eegPower} = await (await fetch('/api/getData')).json();
 
     // Themes begin
     am4core.useTheme(am4themes_animated);

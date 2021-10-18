@@ -1,14 +1,26 @@
 const express = require('express');
-const {readFile} = require('fs').promises;
+const hbs = require('express-handlebars');
+const path = require('path');
+const {readdir} = require('fs').promises;
+
+const {apiRouter} = require('./routes/api');
 
 const app = express();
 
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '/public')));
 app.use(express.json());
+app.engine('.hbs', hbs({extname: '.hbs'}));
+app.set('view engine', '.hbs');
 
-app.get('/json', async (req, res) => {
-    const json = JSON.parse(await readFile('data/test.json'));
-    res.json(json);
-})
+app.use('/api', apiRouter);
+
+app
+    .get('/', async (req, res) => {
+        const files = await readdir('data');
+        console.log(files);
+        res.render('home', {
+            files,
+        });
+    });
 
 app.listen(3000, 'localhost');
