@@ -1,7 +1,14 @@
+let chartLoaded = null;
+document.querySelector('#chart-title').innerText = 'Choose chart from the menu...';
 
-(async () => {
 
-    const {eSense, eegPower} = await (await fetch('/api/getData')).json();
+const createChart = async fileName => {
+
+    if (chartLoaded === fileName) {
+        return;
+    }
+
+    const {eSense, eegPower} = await (await fetch(`/api/getData/${fileName}`)).json();
 
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -15,7 +22,7 @@
     for (const key of Object.keys(eSense)) {
         for (let j = 0; j < eSense[key].length; j++) {
             data.push({
-               time: j,
+                time: j,
                 [key]: eSense[key][j],
             });
         }
@@ -180,5 +187,13 @@
     dateAxis.renderer.grid.template.strokeOpacity = 0.07;
     valueAxis.renderer.grid.template.strokeOpacity = 0.07;
     valueAxis2.renderer.grid.template.strokeOpacity = 0.07;
-})();
+
+    chartLoaded = fileName;
+    document.querySelector('#chart-title').innerText = `Loaded chart: ${fileName}`;
+};
+
+// (async () => {
+//
+//
+// })();
 
