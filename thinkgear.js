@@ -64,7 +64,7 @@ const questions = [
                 highGamma.push(data.eegPower.highGamma);
             }
             try {
-                await writeFile(dataFileName, jsonTemplate, 'utf-8');
+                await writeFile(dataFileName, JSON.stringify(jsonTemplate), 'utf-8');
             } catch (e) {
                 console.error(e)
             }
@@ -72,7 +72,7 @@ const questions = [
         .on('blink_data', async data => {
             blinkData.push(data.blinkStrength);
             try {
-                await writeFile(blinkFileName, blinkData, 'utf-8');
+                await writeFile(blinkFileName, JSON.stringify(blinkData), 'utf-8');
             } catch(e) {
                 console.error(e);
             }
