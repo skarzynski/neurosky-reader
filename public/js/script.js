@@ -2,13 +2,15 @@ let chartLoaded = null;
 document.querySelector('#chart-title').innerText = 'Choose chart from the menu...';
 
 
-const createChart = async fileName => {
+const createChart = async (subject, fileName) => {
 
-    if (chartLoaded === fileName) {
+    if (chartLoaded === `${subject}/${fileName}`) {
         return;
     }
 
-    const {eSense, eegPower} = await (await fetch(`/api/getData/${fileName}`)).json();
+    const address = `/api/getData/${subject}/${fileName}`;
+
+    const {eSense, eegPower} = await (await fetch(address)).json();
 
     // Themes begin
     am4core.useTheme(am4themes_animated);
@@ -188,12 +190,7 @@ const createChart = async fileName => {
     valueAxis.renderer.grid.template.strokeOpacity = 0.07;
     valueAxis2.renderer.grid.template.strokeOpacity = 0.07;
 
-    chartLoaded = fileName;
-    document.querySelector('#chart-title').innerText = `Loaded chart: ${fileName}`;
+    chartLoaded = `${subject}/${fileName}`;
+    document.querySelector('#chart-title').innerText = `Loaded chart: ${fileName} from ${subject}`;
 };
-
-// (async () => {
-//
-//
-// })();
 

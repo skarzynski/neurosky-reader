@@ -1,11 +1,21 @@
 const express = require('express');
-const {readdir} = require('fs').promises;
+
+const {fetchDataStructure} = require('../utils/dataFiles');
 
 const homeRouter = express.Router();
 
 homeRouter
     .get('/', async (req, res) => {
-        const files = (await readdir('data')).map(s => s.substring(0, s.length - 5));
+        const filesStructure = [];
+        await fetchDataStructure('data', filesStructure);
+        const files = {};
+        for (const filesStructureElement of filesStructure) {
+            const [[key, value]] = Object.entries(filesStructureElement);
+            if (!files[key]) {
+                files[key] = [];
+            }
+            files[key].push(value);
+        }
         res.render('home', {
             files,
         });
