@@ -47,6 +47,9 @@ const questions = [
 
     const client = createClient();
 
+    let blinkSaved = 0;
+    let dataSaved = 0;
+
     client
         .on('data', async data => {
             with (jsonTemplate.eSense) {
@@ -65,6 +68,7 @@ const questions = [
             }
             try {
                 await writeFile(dataFileName, JSON.stringify(jsonTemplate), 'utf-8');
+                console.log(`Data saved - ${++dataSaved}`);
             } catch (e) {
                 console.error(e)
             }
@@ -73,6 +77,7 @@ const questions = [
             blinkData.push(data.blinkStrength);
             try {
                 await writeFile(blinkFileName, JSON.stringify(blinkData), 'utf-8');
+                console.log(`BlinkData saved - ${++blinkSaved}`);
             } catch(e) {
                 console.error(e);
             }
