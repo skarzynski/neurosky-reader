@@ -52,25 +52,29 @@ const questions = [
 
     client
         .on('data', async data => {
-            with (jsonTemplate.eSense) {
-                attention.push(data.eSense.attention);
-                meditation.push(data.eSense.meditation);
-            }
-            with (jsonTemplate.eegPower) {
-                delta.push(data.eegPower.delta);
-                theta.push(data.eegPower.theta);
-                lowAlpha.push(data.eegPower.lowAlpha);
-                highAlpha.push(data.eegPower.highAlpha);
-                lowBeta.push(data.eegPower.lowBeta);
-                highBeta.push(data.eegPower.highBeta);
-                lowGamma.push(data.eegPower.lowGamma);
-                highGamma.push(data.eegPower.highGamma);
-            }
-            try {
-                await writeFile(dataFileName, JSON.stringify(jsonTemplate), 'utf-8');
-                console.log(`Data saved - ${++dataSaved}`);
-            } catch (e) {
-                console.error(e)
+            if (data.status === 'scanning') {
+                console.log('Waiting for the device');
+            } else {
+                with (jsonTemplate.eSense) {
+                    attention.push(data.eSense.attention);
+                    meditation.push(data.eSense.meditation);
+                }
+                with (jsonTemplate.eegPower) {
+                    delta.push(data.eegPower.delta);
+                    theta.push(data.eegPower.theta);
+                    lowAlpha.push(data.eegPower.lowAlpha);
+                    highAlpha.push(data.eegPower.highAlpha);
+                    lowBeta.push(data.eegPower.lowBeta);
+                    highBeta.push(data.eegPower.highBeta);
+                    lowGamma.push(data.eegPower.lowGamma);
+                    highGamma.push(data.eegPower.highGamma);
+                }
+                try {
+                    await writeFile(dataFileName, JSON.stringify(jsonTemplate), 'utf-8');
+                    console.log(`Data saved - ${++dataSaved}`);
+                } catch (e) {
+                    console.error(e)
+                }
             }
         })
         .on('blink_data', async data => {
