@@ -7,7 +7,9 @@ const fetchDataStructure = async (dir, filesStructure) => {
         if (stats.isDirectory()) {
             await fetchDataStructure(`${dir}/${file}`, filesStructure);
         } else {
-            filesStructure.push({[dir.substring(5)]: file.substring(0, file.length - 5)});
+            if (file.substring(0, file.length - 5).search('_blink') === -1) {
+                filesStructure.push({[dir.substring(5)]: file.substring(0, file.length - 5)});
+            }
         }
     }
 };
