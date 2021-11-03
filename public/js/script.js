@@ -1,5 +1,6 @@
 let chartLoaded = null;
 document.querySelector('#chart-title').innerText = 'Choose chart from the menu...';
+document.querySelector('#chart-export').style.display = 'none';
 
 
 const createChart = async (subject, fileName) => {
@@ -9,6 +10,7 @@ const createChart = async (subject, fileName) => {
     }
 
     const address = `/api/getData/${subject}/${fileName}`;
+    const exportAddress = `/api/export/${subject}/${fileName}`;
 
     const {eSense, eegPower} = await (await fetch(address)).json();
 
@@ -192,5 +194,7 @@ const createChart = async (subject, fileName) => {
 
     chartLoaded = `${subject}/${fileName}`;
     document.querySelector('#chart-title').innerText = `Loaded chart: ${fileName} from ${subject}`;
+    document.querySelector('#chart-export').style.display = 'block';
+    document.querySelector('#chart-export').href = exportAddress;
 };
 
