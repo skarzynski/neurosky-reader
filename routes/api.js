@@ -15,7 +15,7 @@ apiRouter
 
     .get('/export/:subject/:fileName', async (req, res) => {
         const {subject, fileName} = req.params;
-        const csv = await createCSVFile(subject, fileName);
+        const csv = await createCSVFile(subject, fileName, req.query);
         res.attachment(`${subject}_${fileName}.csv`);
         res.status(200).send(csv);
     });

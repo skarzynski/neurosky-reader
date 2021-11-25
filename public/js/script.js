@@ -1,7 +1,33 @@
 let chartLoaded = null;
 document.querySelector('#chart-title').innerText = 'Choose chart from the menu...';
 document.querySelector('#chart-export').style.display = 'none';
+document.querySelector('#export-options').style.display = 'none';
 
+const download = async (subject, fileName) => {
+    const exportOptions = document.querySelectorAll('.export-option');
+
+    let exportAddress = `/api/export/${subject}/${fileName}?`;
+
+    for (const option of exportOptions) {
+        if (option.checked) {
+            exportAddress += `&${option.name}=true`;
+        } else {
+            exportAddress += `&${option.name}=false`;
+        }
+    }
+
+    fetch(exportAddress)
+        .then(res => res.blob())
+        .then(blob => {
+            const file = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = file;
+            link.download = `${subject}_${fileName}.csv`;
+            document.body.appendChild(link); // we need to append the element to the dom -> otherwise it will not work in firefox
+            link.click();
+            link.remove();  //afterwards we remove the element again
+        });
+}
 
 const createChart = async (subject, fileName) => {
 
@@ -9,8 +35,8 @@ const createChart = async (subject, fileName) => {
         return;
     }
 
+    
     const address = `/api/getData/${subject}/${fileName}`;
-    const exportAddress = `/api/export/${subject}/${fileName}`;
 
     const {eSense, eegPower} = await (await fetch(address)).json();
 
@@ -194,7 +220,10 @@ const createChart = async (subject, fileName) => {
 
     chartLoaded = `${subject}/${fileName}`;
     document.querySelector('#chart-title').innerText = `Loaded chart: ${fileName} from ${subject}`;
-    document.querySelector('#chart-export').style.display = 'block';
-    document.querySelector('#chart-export').href = exportAddress;
+    document.querySelector('#export-options').style.display = 'inline';
+    document.querySelector('#chart-export').style.display = 'inline';
+    document.querySelector('#chart-export').addEventListener('click', () => {
+       download(subject, fileName);
+    });
 };
 

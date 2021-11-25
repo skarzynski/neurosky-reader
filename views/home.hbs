@@ -4,7 +4,39 @@
         <div class="row">
             <div class="col-lg-12">
                 <h1 id="chart-title" class="page-header">Charts</h1>
-                <a href="" id="chart-export"><button class="btn btn-primary">Export to CSV</button></a>
+                <button id="chart-export" class="btn btn-primary">Export to CSV</button>
+                <div id="export-options">
+                    <label>
+                        <input type="checkbox" name="attention" class="export-option" checked>Attention
+                    </label>
+                    <label>
+                        <input type="checkbox" name="meditation" class="export-option" checked>Meditation
+                    </label>
+                    <label>
+                        <input type="checkbox" name="delta" class="export-option" checked>Delta
+                    </label>
+                    <label>
+                        <input type="checkbox" name="theta" class="export-option" checked>Theta
+                    </label>
+                    <label>
+                        <input type="checkbox" name="lowAlpha" class="export-option" checked>Low Alpha
+                    </label>
+                    <label>
+                        <input type="checkbox" name="highAlpha" class="export-option" checked>High Alpha
+                    </label>
+                    <label>
+                        <input type="checkbox" name="lowBeta" class="export-option" checked>Low Beta
+                    </label>
+                    <label>
+                        <input type="checkbox" name="highBeta" class="export-option" checked>High Beta
+                    </label>
+                    <label>
+                        <input type="checkbox" name="lowGamma" class="export-option" checked>Low Gamma
+                    </label>
+                    <label>
+                        <input type="checkbox" name="highGamma" class="export-option" checked>High Gamma
+                    </label>
+                </div>
             </div>
         </div>
         <div id="chartdiv"></div>

@@ -11,3 +11,7 @@ body {
     max-height: 90vh !important;
     overflow-y: auto;
 }
+
+#export-options label {
+    padding-left: 2em;
+}
