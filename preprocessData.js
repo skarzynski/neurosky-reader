@@ -1,4 +1,3 @@
-//import {promises} from 'fs';
 const {writeFile, readdir, mkdir, readFile} = require('fs').promises;
 
 const preprocess = async (subject, experiment) => {
