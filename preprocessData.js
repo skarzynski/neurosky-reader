@@ -1,4 +1,5 @@
-const {writeFile, readdir, mkdir, readFile} = require('fs').promises;
+const prompts = require("prompts");
+const {writeFile, readFile} = require('fs').promises;
 
 const preprocess = async (subject, experiment) => {
 
@@ -63,15 +64,8 @@ const questions = [
 
 (async () => {
 
-    const experiments = ['Rest', 'Plank', 'Rollercoaster', 'Nature'];
+    const {subject, experiment} = await prompts(questions);
 
-    for (let i = 0; i < 15; i++) {
-        for (const experiment of experiments) {
-            if (i === 2 && experiment === 'Rest') {
-                continue;
-            }
-            await preprocess(`Subject${i}`, experiment);
-        }
-    }
+    await preprocess(subject, experiment);
 
 })();
