@@ -8,6 +8,14 @@ homeRouter
     .get('/', async (req, res) => {
         const filesStructure = [];
         await fetchDataStructure('data', filesStructure);
+        filesStructure.sort((a, b) => {
+            const propA = Object.keys(a)[0];
+            const propB = Object.keys(b)[0];
+            return propA.localeCompare(propB, undefined, {
+                numeric: true,
+                sensitivity: 'base'
+            });
+        });
         const files = {};
         for (const filesStructureElement of filesStructure) {
             const [[key, value]] = Object.entries(filesStructureElement);
